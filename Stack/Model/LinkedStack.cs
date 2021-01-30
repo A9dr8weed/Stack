@@ -55,6 +55,7 @@ namespace Stack.Model
             // The new element becomes the first.
             Head = new Item<T>(data)
             {
+                // reset the top of the stack to a new item
                 Previous = Head
             };
 
@@ -71,6 +72,8 @@ namespace Stack.Model
             if (count > 0)
             {
                 Item<T> item = Head;
+
+                // reset the top of the stack to a new item
                 Head = Head.Previous;
                 count--;
 
