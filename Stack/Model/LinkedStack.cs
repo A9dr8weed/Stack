@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace Stack.Model
 {
@@ -8,7 +6,7 @@ namespace Stack.Model
     /// Stack based on a single-linked list.
     /// </summary>
     /// <typeparam name="T"> The type of data stored on the stack. </typeparam>
-    public class LinkedStack<T> : IEnumerable<T>
+    public class LinkedStack<T>
     {
         /// <summary>
         /// The first item in the list.
@@ -101,30 +99,5 @@ namespace Stack.Model
                 throw new NullReferenceException("Stack is empty");
             }
         }
-
-        /// <summary>
-        /// Return an enumerator that iterates through all the elements in a linked list.
-        /// </summary>
-        /// <returns> An enumerator that can be used to iterate over the collection. </returns>
-        public IEnumerator<T> GetEnumerator()
-        {
-            // We iterate over all the elements of the linked list to be presented as a collection of elements.
-            Item<T> current = Head;
-
-            while (current != null)
-            {
-                yield return current.Data;
-                current = current.Previous;
-            }
-        }
-
-        /// <summary>
-        /// Return an enumerator that iterates through the linked list.
-        /// </summary>
-        /// <returns> The IEnumerator used to traverse the collection. </returns>
-        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)this).GetEnumerator();
-        // Just return the enumerator defined above.
-        // This is required to implement the IEnumerable interface
-        // to be able to iterate over the elements of the linked list with the foreach operation.
     }
 }

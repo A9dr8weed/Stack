@@ -25,11 +25,6 @@ namespace Stack
             linkedStack.Push(40);
             linkedStack.Push(50);
 
-            foreach (int item in linkedStack)
-            {
-                Console.WriteLine(item);
-            }
-
             Console.WriteLine(linkedStack.Peek());
             Console.WriteLine(linkedStack.Pop());
             Console.WriteLine(linkedStack.Pop());
