@@ -15,7 +15,7 @@ namespace Stack.Model
         /// <summary>
         /// Previous cell in the list.
         /// </summary>
-        public Item<T> Previous { get; set; }
+        public Item<T> Next { get; set; }
 
         /// <summary>
         /// Creation of a new instance of the linked list.

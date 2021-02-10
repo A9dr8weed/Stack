@@ -11,27 +11,17 @@ namespace Stack.Model
         /// <summary>
         /// Array elements.
         /// </summary>
-        private readonly T[] items;
+        private T[] items;
 
         /// <summary>
-        /// Maximum number of items.
+        /// Number of elements.
         /// </summary>
-        public int MaxCount => items.Length;
+        private int count;
 
         /// <summary>
-        /// Current item.
+        /// Number of elements.
         /// </summary>
-        private int current = -1;
-
-        /// <summary>
-        /// The first element of the array.
-        /// </summary>
-        public int Count => current + 1;
-
-        /// <summary>
-        /// Array size.
-        /// </summary>
-        private readonly int Size = 10;
+        public int Count => count;
 
         /// <summary>
         /// Initialization with the specified size.
@@ -39,7 +29,6 @@ namespace Stack.Model
         /// <param name="size"> Array size, default size = 10. </param>
         public ArrayStack(int size = 10)
         {
-            Size = size;
             items = new T[size];
         }
 
@@ -47,55 +36,95 @@ namespace Stack.Model
         /// Add data to the stack.
         /// </summary>
         /// <param name="data"> Added data. </param>
-        /// <exception cref="StackOverflowException"></exception>
+        /// <exception cref="ArgumentNullException"><paramref name="data"/> is <c>null</c>.</exception>
         public void Push(T data)
         {
-            if (current < Size - 1)
+            // Check input data for emptiness.
+            if (data == null)
             {
-                current++;
-                items[current] = data;
+                throw new ArgumentNullException(nameof(data));
             }
-            else
+
+            // Increase the stack. 
+            if (count == items.Length)
             {
-                throw new StackOverflowException("Stack is overflow");
+                Resize(items.Length + 10);
             }
+
+            // Add an element to the array, while increasing the value of the count variable.
+            items[count++] = data;
         }
 
         /// <summary>
         /// Get the top of the stack and remove.
         /// </summary>
         /// <returns> Data item. </returns>
-        /// <exception cref="NullReferenceException"></exception>
         public T Pop()
         {
-            if (current >= 0)
-            {
-                T item = items[current];
-                current--;
+            // Pop an element from the top of the stack, decreasing the value of the variable count.
+            T item = items[--count];
+            // Reset the link.
+            items[count] = default;
 
-                return item;
-            }
-            else
+            // If there are more than 10 empty cells in the items array.
+            if (count > 0 && count < items.Length - 10)
             {
-                throw new NullReferenceException("Stack is empty");
+                Resize(items.Length - 10);
             }
+
+            return item;
         }
 
         /// <summary>
         /// Read the top element of the stack without removing.
         /// </summary>
         /// <returns> Data item. </returns>
-        /// <exception cref="NullReferenceException"></exception>
         public T Peek()
         {
-            if (current >= 0)
+            return items[count - 1];
+        }
+
+        /// <summary>
+        /// Check for element.
+        /// </summary>
+        /// <param name="data"> Data to be checked </param>
+        /// <returns> String with message </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="data"/> is <c>null</c>.</exception>
+        public string Contains(T data)
+        {
+            // Check input data for emptiness.
+            if (data == null)
             {
-                return items[current];
+                throw new ArgumentNullException(nameof(data));
             }
-            else
+
+            for (int i = 0; i < count; i++)
             {
-                throw new NullReferenceException("Stack is empty");
+                if (items[i].Equals(data))
+                {
+                    return $"Element {data} is in the list.";
+                }
             }
+
+            return $"Element {data} is not in the list.";
+        }
+
+        /// <summary>
+        /// Resizes the array to max.
+        /// </summary>
+        /// <param name="max"> The size. </param>
+        private void Resize(int max)
+        {
+            // Method creates a new array.
+            T[] tempItems = new T[max];
+
+            for (int i = 0; i < count; i++)
+            {
+                // Data is copied from the old.
+                tempItems[i] = items[i];
+            }
+
+            items = tempItems;
         }
     }
 }

@@ -88,6 +88,31 @@ namespace Stack.Model
         }
 
         /// <summary>
+        /// Check for element.
+        /// </summary>
+        /// <param name="data"> Data to be checked </param>
+        /// <returns> String with message </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="data"/> is <c>null</c>.</exception>
+        public string Contains(T data)
+        {
+            // Check input data for emptiness.
+            if (data == null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+
+            foreach (T item in items)
+            {
+                if (item.Equals(data))
+                {
+                    return $"Element {data} is in the list.";
+                }
+            }
+
+            return $"Element {data} is not in the list.";
+        }
+
+        /// <summary>
         /// Casting an object to a string.
         /// </summary>
         /// <returns> Stored data. </returns>
